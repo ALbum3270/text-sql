@@ -1,7 +1,7 @@
 # Text-to-SQL 企业级系统
 
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 > 一个基于大语言模型的企业级自然语言转SQL系统，采用**两阶段LLM架构**（Planner + Generator）和**分层约束系统**（MUST/SHOULD/MAY），实现高准确率和高安全性的SQL生成。
@@ -235,9 +235,16 @@ python eval_nl2sql.py --testset outputs/gold_samples.jsonl --use-kb --exec --no-
 
 ## ⚖️ 许可证
 
-本项目基于 [MIT License](LICENSE) 开源。
+本项目基于 [GPL-3.0 License](LICENSE) 开源。
 
-示例代码以教育/研究为目的提供，实际生产环境使用请结合具体业务场景和数据合规要求进行审查与优化。
+**重要说明：**
+- 本项目采用最严格的开源协议 GPL-3.0
+- 任何使用、修改或衍生本项目的代码必须：
+  - 同样以 GPL-3.0 协议开源
+  - 公开完整源代码
+  - 保留原始版权声明
+- 不允许闭源商业使用
+- 示例代码以教育/研究为目的提供，实际生产环境使用请结合具体业务场景和数据合规要求进行审查与优化。
 
 ## 🙏 致谢
 
