@@ -572,14 +572,14 @@ graph TB
 
 ```mermaid
 graph LR
-    A[用户问题:<br/>"近7天威胁域名统计"] --> B[Schema检索]
+    A[用户问题:<br/>'近7天威胁域名统计'] --> B[Schema检索]
     B --> C[选中:<br/>threat_domain_static]
     C --> D[Planner规划:<br/>task=count<br/>timeframe_days=7]
     D --> E[Generator生成SQL]
-    E --> F[候选SQL:<br/>SELECT domain_address, COUNT*<br/>FROM threat_domain_static<br/>WHERE first_find_time >= ...]
+    E --> F[候选SQL:<br/>SELECT domain_address, COUNT<br/>FROM threat_domain_static<br/>WHERE first_find_time >=...]
     F --> G[三层验证]
     G --> H[数据库执行]
-    H --> I[返回结果:<br/>domain1: 150<br/>domain2: 89<br/>...]
+    H --> I[返回结果:<br/>domain1: 150<br/>domain2: 89]
     
     style A fill:#e1f5e1
     style I fill:#d4edda
