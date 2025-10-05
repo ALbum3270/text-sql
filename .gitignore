@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment Variables (keep example only)
+.env
+*.env
+!env.example
+
+# Sensitive Data Files
+outputs/kb/
+outputs/m_schema.json
+outputs/schema.md
+outputs/semantic_index/
+outputs/*.json
+!outputs/.gitkeep
+
+# Logs and Temporary Files
+*.log
+*.jsonl
+!eval/eval_samples.jsonl
+!eval/eval_custom.jsonl
+!gold_samples.jsonl
+!few_shot_examples.json
+temp_*.json
+temp_*.jsonl
+
+# Evaluation Results
+eval/eval_run_*.jsonl
+eval/*_results.jsonl
+eval/*_logs.jsonl
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backup Files
+*.bak
+*.backup
+*~
+

@@ -1,0 +1,6 @@
+# This directory will contain:
+# - m_schema.json: Database schema metadata (generated)
+# - schema.md: Database schema documentation (generated)
+# - kb/: Knowledge base files per table (generated)
+# - semantic_index/: Semantic search index files (optional)
+

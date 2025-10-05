@@ -1,0 +1,64 @@
+[
+  {
+    "question": "木马检测记录总数",
+    "gold_sql": "SELECT COUNT(*) AS cnt FROM horse",
+    "must_tables": [
+      "horse"
+    ],
+    "must_columns": [
+      "COUNT(*)"
+    ]
+  },
+  {
+    "question": "木马检测记录总数",
+    "gold_sql": "SELECT COUNT(*) AS cnt FROM horse",
+    "must_tables": [
+      "horse"
+    ],
+    "must_columns": [
+      "COUNT(*)"
+    ]
+  },
+  {
+    "question": "按操作系统统计终端数量",
+    "gold_sql": "SELECT os_type, COUNT(*) AS cnt FROM node GROUP BY os_type",
+    "must_tables": [
+      "node"
+    ],
+    "must_columns": [
+      "os_type",
+      "COUNT(*)"
+    ]
+  },
+  {
+    "question": "按操作系统统计终端数量",
+    "gold_sql": "SELECT os_type, COUNT(*) AS cnt FROM node GROUP BY os_type",
+    "must_tables": [
+      "node"
+    ],
+    "must_columns": [
+      "os_type",
+      "COUNT(*)"
+    ]
+  },
+  {
+    "question": "今天发现的木马",
+    "gold_sql": "SELECT COUNT(*) AS cnt FROM horse WHERE time >= CURDATE()",
+    "must_tables": [
+      "horse"
+    ],
+    "must_columns": [
+      "COUNT(*)"
+    ]
+  },
+  {
+    "question": "今天发现的木马",
+    "gold_sql": "SELECT COUNT(*) AS cnt FROM horse WHERE time >= CURDATE()",
+    "must_tables": [
+      "horse"
+    ],
+    "must_columns": [
+      "COUNT(*)"
+    ]
+  }
+]

@@ -1,0 +1,117 @@
+{"question": "近7天threat_domain_static按domain_address出现次数", "gold_sql": "SELECT domain_address, COUNT(*) AS cnt FROM threat_domain_static WHERE first_find_time >= CURDATE() - INTERVAL 7 DAY GROUP BY domain_address LIMIT 10", "must_tables": ["threat_domain_static"], "must_columns": ["domain_address", "COUNT(*)"]}
+{"question": "统计threat_node_handle中不同handle_status的数量", "gold_sql": "SELECT COUNT(DISTINCT handle_status) AS cnt FROM threat_node_handle", "must_tables": ["threat_node_handle"], "must_columns": ["handle_status", "COUNT(*)"]}
+{"question": "近30天threat_process_handle数量趋势（按天）", "gold_sql": "SELECT DATE(handle_time) AS d, COUNT(*) AS cnt FROM threat_process_handle WHERE handle_time >= CURDATE() - INTERVAL 30 DAY GROUP BY DATE(handle_time)", "must_tables": ["threat_process_handle"], "must_columns": ["handle_time", "COUNT(*)"], "group_by": ["DATE(handle_time)"]}
+{"question": "统计threat_process_handle中不同image的数量", "gold_sql": "SELECT COUNT(DISTINCT image) AS cnt FROM threat_process_handle", "must_tables": ["threat_process_handle"], "must_columns": ["image", "COUNT(*)"]}
+{"question": "近30天ai_asset数量趋势（按天）", "gold_sql": "SELECT DATE(update_time) AS d, COUNT(*) AS cnt FROM ai_asset WHERE update_time >= CURDATE() - INTERVAL 30 DAY GROUP BY DATE(update_time)", "must_tables": ["ai_asset"], "must_columns": ["update_time", "COUNT(*)"], "group_by": ["DATE(update_time)"]}
+{"question": "近7天common_config数量趋势（按天）", "gold_sql": "SELECT DATE(create_time) AS d, COUNT(*) AS cnt FROM common_config WHERE create_time >= CURDATE() - INTERVAL 7 DAY GROUP BY DATE(create_time)", "must_tables": ["common_config"], "must_columns": ["create_time", "COUNT(*)"], "group_by": ["DATE(create_time)"]}
+{"question": "近7天host_ips_rule数量趋势（按天）", "gold_sql": "SELECT DATE(ts) AS d, COUNT(*) AS cnt FROM host_ips_rule WHERE ts >= CURDATE() - INTERVAL 7 DAY GROUP BY DATE(ts)", "must_tables": ["host_ips_rule"], "must_columns": ["ts", "COUNT(*)"], "group_by": ["DATE(ts)"]}
+{"question": "llm_current_connect的时间范围（最早与最晚）", "gold_sql": "SELECT MIN(create_time) AS min_time, MAX(create_time) AS max_time FROM llm_current_connect", "must_tables": ["llm_current_connect"], "must_columns": ["create_time"]}
+{"question": "近7天login_success_citys数量趋势（按天）", "gold_sql": "SELECT DATE(create_time) AS d, COUNT(*) AS cnt FROM login_success_citys WHERE create_time >= CURDATE() - INTERVAL 7 DAY GROUP BY DATE(create_time)", "must_tables": ["login_success_citys"], "must_columns": ["create_time", "COUNT(*)"], "group_by": ["DATE(create_time)"]}
+{"question": "哪些终端存在弱口令", "gold_sql": "SELECT node_id, COUNT(*) AS cnt FROM weak_password_node_detail GROUP BY node_id ORDER BY cnt DESC LIMIT 50", "must_tables": ["weak_password_node_detail"], "must_columns": ["node_id", "COUNT(*)"]}
+{"question": "查询租户tenant_A的终端染毒情况", "gold_sql": "SELECT node_id FROM virus_details WHERE less_user = 'tenant_A' GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "病毒感染记录总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "今天感染病毒的数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "今天有哪些终端被感染", "gold_sql": "SELECT node_id FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "按租户统计病毒感染情况", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM virus_details GROUP BY less_user", "must_tables": ["virus_details"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "Docker容器总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM container", "must_tables": ["container"], "must_columns": ["COUNT(*)"]}
+{"question": "基线检查任务总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM base_line_task", "must_tables": ["base_line_task"], "must_columns": ["COUNT(*)"]}
+{"question": "今天发现的威胁域名", "gold_sql": "SELECT domain_address FROM threat_domain_static WHERE first_find_time >= CURDATE() GROUP BY domain_address", "must_tables": ["threat_domain_static"], "must_columns": ["domain_address"]}
+{"question": "按操作系统统计终端数量", "gold_sql": "SELECT os_type, COUNT(*) AS cnt FROM node GROUP BY os_type", "must_tables": ["node"], "must_columns": ["os_type", "COUNT(*)"]}
+{"question": "有哪些IP被标记为威胁", "gold_sql": "SELECT ip FROM threat_ip_static GROUP BY ip", "must_tables": ["threat_ip_static"], "must_columns": ["ip"]}
+{"question": "按租户统计弱口令情况", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM weak_password_node_detail GROUP BY less_user", "must_tables": ["weak_password_node_detail"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "近一周感染病毒的终端", "gold_sql": "SELECT node_id FROM virus_details WHERE time >= CURDATE() - INTERVAL 7 DAY GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "木马检测记录总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM horse", "must_tables": ["horse"], "must_columns": ["COUNT(*)"]}
+{"question": "今天感染病毒的数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "按镜像统计容器数量", "gold_sql": "SELECT image, COUNT(*) AS cnt FROM container GROUP BY image", "must_tables": ["container"], "must_columns": ["image", "COUNT(*)"]}
+{"question": "租户tenant_A有哪些终端", "gold_sql": "SELECT node_id FROM node WHERE less_user = 'tenant_A'", "must_tables": ["node"], "must_columns": ["node_id"]}
+{"question": "基线检查任务总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM base_line_task", "must_tables": ["base_line_task"], "must_columns": ["COUNT(*)"]}
+{"question": "按操作系统统计终端数量", "gold_sql": "SELECT os_type, COUNT(*) AS cnt FROM node GROUP BY os_type", "must_tables": ["node"], "must_columns": ["os_type", "COUNT(*)"]}
+{"question": "租户tenant_A的基线检查任务", "gold_sql": "SELECT COUNT(*) AS cnt FROM base_line_task WHERE less_user = 'tenant_A'", "must_tables": ["base_line_task"], "must_columns": ["COUNT(*)"]}
+{"question": "按租户统计漏洞数量", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM vulnerability GROUP BY less_user", "must_tables": ["vulnerability"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "威胁进程有哪些", "gold_sql": "SELECT process_name FROM threat_process_static GROUP BY process_name", "must_tables": ["threat_process_static"], "must_columns": ["process_name"]}
+{"question": "今天感染病毒的数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "统计弱口令终端总数", "gold_sql": "SELECT COUNT(DISTINCT node_id) AS cnt FROM weak_password_node_detail", "must_tables": ["weak_password_node_detail"], "must_columns": ["node_id", "COUNT(*)"]}
+{"question": "按租户统计病毒感染情况", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM virus_details GROUP BY less_user", "must_tables": ["virus_details"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "按操作系统统计终端数量", "gold_sql": "SELECT os_type, COUNT(*) AS cnt FROM node GROUP BY os_type", "must_tables": ["node"], "must_columns": ["os_type", "COUNT(*)"]}
+{"question": "敏感词检查结果", "gold_sql": "SELECT COUNT(*) AS cnt FROM sensitive_words_task_result", "must_tables": ["sensitive_words_task_result"], "must_columns": ["COUNT(*)"]}
+{"question": "木马检测记录总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM horse", "must_tables": ["horse"], "must_columns": ["COUNT(*)"]}
+{"question": "查询租户tenant_A的终端染毒情况", "gold_sql": "SELECT node_id FROM virus_details WHERE less_user = 'tenant_A' GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "病毒感染记录总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "攻击告警总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM attck_warning", "must_tables": ["attck_warning"], "must_columns": ["COUNT(*)"]}
+{"question": "威胁IP总数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM threat_ip_static", "must_tables": ["threat_ip_static"], "must_columns": ["COUNT(*)"]}
+{"question": "今天感染病毒的数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "统计弱口令终端总数", "gold_sql": "SELECT COUNT(DISTINCT node_id) AS cnt FROM weak_password_node_detail", "must_tables": ["weak_password_node_detail"], "must_columns": ["node_id", "COUNT(*)"]}
+{"question": "Windows系统的终端", "gold_sql": "SELECT node_id FROM node WHERE os_type = 'Windows'", "must_tables": ["node"], "must_columns": ["node_id"]}
+{"question": "按镜像统计容器数量", "gold_sql": "SELECT image, COUNT(*) AS cnt FROM container GROUP BY image", "must_tables": ["container"], "must_columns": ["image", "COUNT(*)"]}
+{"question": "租户tenant_A的漏洞情况", "gold_sql": "SELECT COUNT(*) AS cnt FROM vulnerability WHERE less_user = 'tenant_A'", "must_tables": ["vulnerability"], "must_columns": ["COUNT(*)"]}
+{"question": "今天有哪些终端被感染", "gold_sql": "SELECT node_id FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "按租户统计病毒感染情况", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM virus_details GROUP BY less_user", "must_tables": ["virus_details"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "租户tenant_A有哪些终端", "gold_sql": "SELECT node_id FROM node WHERE less_user = 'tenant_A'", "must_tables": ["node"], "must_columns": ["node_id"]}
+{"question": "Docker容器总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM container", "must_tables": ["container"], "must_columns": ["COUNT(*)"]}
+{"question": "基线检查任务总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM base_line_task", "must_tables": ["base_line_task"], "must_columns": ["COUNT(*)"]}
+{"question": "今天发现的威胁域名", "gold_sql": "SELECT domain_address FROM threat_domain_static WHERE first_find_time >= CURDATE() GROUP BY domain_address", "must_tables": ["threat_domain_static"], "must_columns": ["domain_address"]}
+{"question": "按操作系统统计终端数量", "gold_sql": "SELECT os_type, COUNT(*) AS cnt FROM node GROUP BY os_type", "must_tables": ["node"], "must_columns": ["os_type", "COUNT(*)"]}
+{"question": "哪些终端存在弱口令", "gold_sql": "SELECT node_id FROM weak_password_node_detail GROUP BY node_id", "must_tables": ["weak_password_node_detail"], "must_columns": ["node_id"]}
+{"question": "有多少台终端在线", "gold_sql": "SELECT COUNT(*) AS cnt FROM node", "must_tables": ["node"], "must_columns": ["COUNT(*)"]}
+{"question": "漏洞扫描结果总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM vulnerability", "must_tables": ["vulnerability"], "must_columns": ["COUNT(*)"]}
+{"question": "租户tenant_A的基线检查任务", "gold_sql": "SELECT COUNT(*) AS cnt FROM base_line_task WHERE less_user = 'tenant_A'", "must_tables": ["base_line_task"], "must_columns": ["COUNT(*)"]}
+{"question": "弱口令检查结果总量", "gold_sql": "SELECT COUNT(*) AS cnt FROM weak_password_node_detail", "must_tables": ["weak_password_node_detail"], "must_columns": ["COUNT(*)"]}
+{"question": "今天发现的木马", "gold_sql": "SELECT COUNT(*) AS cnt FROM horse WHERE time >= CURDATE()", "must_tables": ["horse"], "must_columns": ["COUNT(*)"]}
+{"question": "按租户统计漏洞数量", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM vulnerability GROUP BY less_user", "must_tables": ["vulnerability"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "有哪些IP被标记为威胁", "gold_sql": "SELECT ip FROM threat_ip_static GROUP BY ip", "must_tables": ["threat_ip_static"], "must_columns": ["ip"]}
+{"question": "威胁进程有哪些", "gold_sql": "SELECT process_name FROM threat_process_static GROUP BY process_name", "must_tables": ["threat_process_static"], "must_columns": ["process_name"]}
+{"question": "按租户统计弱口令情况", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM weak_password_node_detail GROUP BY less_user", "must_tables": ["weak_password_node_detail"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "近7天的攻击告警数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM attck_warning WHERE create_time >= CURDATE() - INTERVAL 7 DAY", "must_tables": ["attck_warning"], "must_columns": ["COUNT(*)"]}
+{"question": "今天有哪些攻击告警", "gold_sql": "SELECT COUNT(*) AS cnt FROM attck_warning WHERE create_time >= CURDATE()", "must_tables": ["attck_warning"], "must_columns": ["COUNT(*)"]}
+{"question": "近一周感染病毒的终端", "gold_sql": "SELECT node_id FROM virus_details WHERE time >= CURDATE() - INTERVAL 7 DAY GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "租户tenant_A有哪些弱口令终端", "gold_sql": "SELECT node_id FROM weak_password_node_detail WHERE less_user = 'tenant_A' GROUP BY node_id", "must_tables": ["weak_password_node_detail"], "must_columns": ["node_id"]}
+{"question": "敏感词检查结果", "gold_sql": "SELECT COUNT(*) AS cnt FROM sensitive_words_task_result", "must_tables": ["sensitive_words_task_result"], "must_columns": ["COUNT(*)"]}
+{"question": "木马检测记录总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM horse", "must_tables": ["horse"], "must_columns": ["COUNT(*)"]}
+{"question": "查询租户tenant_A的终端染毒情况", "gold_sql": "SELECT node_id FROM virus_details WHERE less_user = 'tenant_A' GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "病毒感染记录总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "攻击告警总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM attck_warning", "must_tables": ["attck_warning"], "must_columns": ["COUNT(*)"]}
+{"question": "威胁IP总数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM threat_ip_static", "must_tables": ["threat_ip_static"], "must_columns": ["COUNT(*)"]}
+{"question": "今天感染病毒的数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "统计弱口令终端总数", "gold_sql": "SELECT COUNT(DISTINCT node_id) AS cnt FROM weak_password_node_detail", "must_tables": ["weak_password_node_detail"], "must_columns": ["node_id", "COUNT(*)"]}
+{"question": "Windows系统的终端", "gold_sql": "SELECT node_id FROM node WHERE os_type = 'Windows'", "must_tables": ["node"], "must_columns": ["node_id"]}
+{"question": "按镜像统计容器数量", "gold_sql": "SELECT image, COUNT(*) AS cnt FROM container GROUP BY image", "must_tables": ["container"], "must_columns": ["image", "COUNT(*)"]}
+{"question": "租户tenant_A的漏洞情况", "gold_sql": "SELECT COUNT(*) AS cnt FROM vulnerability WHERE less_user = 'tenant_A'", "must_tables": ["vulnerability"], "must_columns": ["COUNT(*)"]}
+{"question": "今天有哪些终端被感染", "gold_sql": "SELECT node_id FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "按租户统计病毒感染情况", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM virus_details GROUP BY less_user", "must_tables": ["virus_details"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "租户tenant_A有哪些终端", "gold_sql": "SELECT node_id FROM node WHERE less_user = 'tenant_A'", "must_tables": ["node"], "must_columns": ["node_id"]}
+{"question": "Docker容器总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM container", "must_tables": ["container"], "must_columns": ["COUNT(*)"]}
+{"question": "基线检查任务总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM base_line_task", "must_tables": ["base_line_task"], "must_columns": ["COUNT(*)"]}
+{"question": "今天发现的威胁域名", "gold_sql": "SELECT domain_address FROM threat_domain_static WHERE first_find_time >= CURDATE() GROUP BY domain_address", "must_tables": ["threat_domain_static"], "must_columns": ["domain_address"]}
+{"question": "按操作系统统计终端数量", "gold_sql": "SELECT os_type, COUNT(*) AS cnt FROM node GROUP BY os_type", "must_tables": ["node"], "must_columns": ["os_type", "COUNT(*)"]}
+{"question": "哪些终端存在弱口令", "gold_sql": "SELECT node_id FROM weak_password_node_detail GROUP BY node_id", "must_tables": ["weak_password_node_detail"], "must_columns": ["node_id"]}
+{"question": "有多少台终端在线", "gold_sql": "SELECT COUNT(*) AS cnt FROM node", "must_tables": ["node"], "must_columns": ["COUNT(*)"]}
+{"question": "漏洞扫描结果总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM vulnerability", "must_tables": ["vulnerability"], "must_columns": ["COUNT(*)"]}
+{"question": "租户tenant_A的基线检查任务", "gold_sql": "SELECT COUNT(*) AS cnt FROM base_line_task WHERE less_user = 'tenant_A'", "must_tables": ["base_line_task"], "must_columns": ["COUNT(*)"]}
+{"question": "弱口令检查结果总量", "gold_sql": "SELECT COUNT(*) AS cnt FROM weak_password_node_detail", "must_tables": ["weak_password_node_detail"], "must_columns": ["COUNT(*)"]}
+{"question": "今天发现的木马", "gold_sql": "SELECT COUNT(*) AS cnt FROM horse WHERE time >= CURDATE()", "must_tables": ["horse"], "must_columns": ["COUNT(*)"]}
+{"question": "按租户统计漏洞数量", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM vulnerability GROUP BY less_user", "must_tables": ["vulnerability"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "有哪些IP被标记为威胁", "gold_sql": "SELECT ip FROM threat_ip_static GROUP BY ip", "must_tables": ["threat_ip_static"], "must_columns": ["ip"]}
+{"question": "威胁进程有哪些", "gold_sql": "SELECT process_name FROM threat_process_static GROUP BY process_name", "must_tables": ["threat_process_static"], "must_columns": ["process_name"]}
+{"question": "按租户统计弱口令情况", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM weak_password_node_detail GROUP BY less_user", "must_tables": ["weak_password_node_detail"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "近7天的攻击告警数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM attck_warning WHERE create_time >= CURDATE() - INTERVAL 7 DAY", "must_tables": ["attck_warning"], "must_columns": ["COUNT(*)"]}
+{"question": "今天有哪些攻击告警", "gold_sql": "SELECT COUNT(*) AS cnt FROM attck_warning WHERE create_time >= CURDATE()", "must_tables": ["attck_warning"], "must_columns": ["COUNT(*)"]}
+{"question": "近一周感染病毒的终端", "gold_sql": "SELECT node_id FROM virus_details WHERE time >= CURDATE() - INTERVAL 7 DAY GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "租户tenant_A有哪些弱口令终端", "gold_sql": "SELECT node_id FROM weak_password_node_detail WHERE less_user = 'tenant_A' GROUP BY node_id", "must_tables": ["weak_password_node_detail"], "must_columns": ["node_id"]}
+{"question": "敏感词检查结果", "gold_sql": "SELECT COUNT(*) AS cnt FROM sensitive_words_task_result", "must_tables": ["sensitive_words_task_result"], "must_columns": ["COUNT(*)"]}
+{"question": "木马检测记录总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM horse", "must_tables": ["horse"], "must_columns": ["COUNT(*)"]}
+{"question": "查询租户tenant_A的终端染毒情况", "gold_sql": "SELECT node_id FROM virus_details WHERE less_user = 'tenant_A' GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "病毒感染记录总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "攻击告警总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM attck_warning", "must_tables": ["attck_warning"], "must_columns": ["COUNT(*)"]}
+{"question": "威胁IP总数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM threat_ip_static", "must_tables": ["threat_ip_static"], "must_columns": ["COUNT(*)"]}
+{"question": "今天感染病毒的数量", "gold_sql": "SELECT COUNT(*) AS cnt FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY", "must_tables": ["virus_details"], "must_columns": ["COUNT(*)"]}
+{"question": "统计弱口令终端总数", "gold_sql": "SELECT COUNT(DISTINCT node_id) AS cnt FROM weak_password_node_detail", "must_tables": ["weak_password_node_detail"], "must_columns": ["node_id", "COUNT(*)"]}
+{"question": "Windows系统的终端", "gold_sql": "SELECT node_id FROM node WHERE os_type = 'Windows'", "must_tables": ["node"], "must_columns": ["node_id"]}
+{"question": "按镜像统计容器数量", "gold_sql": "SELECT image, COUNT(*) AS cnt FROM container GROUP BY image", "must_tables": ["container"], "must_columns": ["image", "COUNT(*)"]}
+{"question": "租户tenant_A的漏洞情况", "gold_sql": "SELECT COUNT(*) AS cnt FROM vulnerability WHERE less_user = 'tenant_A'", "must_tables": ["vulnerability"], "must_columns": ["COUNT(*)"]}
+{"question": "今天有哪些终端被感染", "gold_sql": "SELECT node_id FROM virus_details WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY GROUP BY node_id", "must_tables": ["virus_details"], "must_columns": ["node_id"]}
+{"question": "按租户统计病毒感染情况", "gold_sql": "SELECT less_user, COUNT(*) AS cnt FROM virus_details GROUP BY less_user", "must_tables": ["virus_details"], "must_columns": ["less_user", "COUNT(*)"]}
+{"question": "租户tenant_A有哪些终端", "gold_sql": "SELECT node_id FROM node WHERE less_user = 'tenant_A'", "must_tables": ["node"], "must_columns": ["node_id"]}
+{"question": "Docker容器总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM container", "must_tables": ["container"], "must_columns": ["COUNT(*)"]}
+{"question": "基线检查任务总数", "gold_sql": "SELECT COUNT(*) AS cnt FROM base_line_task", "must_tables": ["base_line_task"], "must_columns": ["COUNT(*)"]}
+{"question": "今天发现的威胁域名", "gold_sql": "SELECT domain_address FROM threat_domain_static WHERE first_find_time >= CURDATE() GROUP BY domain_address", "must_tables": ["threat_domain_static"], "must_columns": ["domain_address"]}
+{"question": "按操作系统统计终端数量", "gold_sql": "SELECT os_type, COUNT(*) AS cnt FROM node GROUP BY os_type", "must_tables": ["node"], "must_columns": ["os_type", "COUNT(*)"]}

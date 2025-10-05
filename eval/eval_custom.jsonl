@@ -1,0 +1,27 @@
+{"question": "我总共部署了多少台终端？", "gold_sql": "SELECT COUNT(*) AS cnt FROM node"}
+{"question": "尚有哪些终端还没有安装客户端？", "gold_sql": "SELECT id, host, ip FROM node WHERE status != '1' OR status IS NULL"}
+{"question": "我管理的终端中，操作系统的分布是怎么样的？", "gold_sql": "SELECT os_type, COUNT(*) AS cnt FROM node GROUP BY os_type"}
+{"question": "有哪些服务器使用 Apache？", "gold_sql": "SELECT DISTINCT n.id, n.host, n.ip FROM node n JOIN node_process np ON n.id = np.node_id WHERE np.name LIKE '%apache%' OR np.command_line LIKE '%apache%'"}
+{"question": "有哪些服务器使用 Tomcat？", "gold_sql": "SELECT DISTINCT n.id, n.host, n.ip FROM node n JOIN node_process np ON n.id = np.node_id WHERE np.name LIKE '%tomcat%' OR np.command_line LIKE '%tomcat%'"}
+{"question": "有哪些终端的客户端版本长期未更新？", "gold_sql": "SELECT id, host, ip, version FROM node WHERE version < DATE_SUB(NOW(), INTERVAL 30 DAY) OR version IS NULL"}
+{"question": "有哪些终端的特征库版本长期未更新？", "gold_sql": "SELECT id, host, ip, version FROM node WHERE version < DATE_SUB(NOW(), INTERVAL 7 DAY)"}
+{"question": "有哪些人主动卸载了客户端防护软件？", "gold_sql": "SELECT id, host, ip, protect_status FROM node WHERE protect_status = '0' OR enable = 0"}
+{"question": "哪些终端病毒情况比较堪忧，存在横向扩散及感染行为？", "gold_sql": "SELECT machine_id, COUNT(*) AS virus_count FROM virus_details WHERE time >= DATE_SUB(NOW(), INTERVAL 7 DAY) GROUP BY machine_id HAVING virus_count >= 5"}
+{"question": "请帮我找出存在超危漏洞的终端。", "gold_sql": "SELECT DISTINCT node_id, vulnerability_name, cvss_score FROM ai_asset_vul WHERE level = 'HIGH'"}
+{"question": "我有哪些终端的操作系统必须要升级？", "gold_sql": "SELECT id, host, ip, os_str FROM node WHERE os_str LIKE '%Windows 7%' OR os_str LIKE '%Windows XP%' OR os_str LIKE '%Server 2003%'"}
+{"question": "请找出哪些终端存在系统弱口令并且可以远程登录。", "gold_sql": "SELECT DISTINCT wpnd.node_id, wpnd.user, wpnd.pass_wd FROM weak_password_node_detail wpnd JOIN node n ON wpnd.node_id = n.id WHERE wpnd.level >= 1"}
+{"question": "请找出哪些业务应用存在弱口令并能被恶意利用。", "gold_sql": "SELECT wpad.node_id, wpa.name, wpad.user, wpad.pass_wd, wpad.level FROM weak_password_app_detail wpad JOIN weak_password_app wpa ON wpad.app_id = wpa.app_id WHERE wpad.level >= 2"}
+{"question": "我有哪些业务是直接暴露在互联网上的？", "gold_sql": "SELECT node_id, port, protocol FROM node_exposure_port WHERE port IN ('22', '3389', '80', '443', '21', '23')"}
+{"question": "有哪些服务器还在用默认的远程登录端口（22、3389）？", "gold_sql": "SELECT DISTINCT nli.node_id, nli.port FROM node_listen_info nli WHERE nli.port IN ('22', '3389')"}
+{"question": "有人中了远程后门，在聊天群中发了一个附件，附件名为 xxxx，请找出有哪些终端接收了这个文件，哪些终端接收后还运行了这个文件？", "gold_sql": "SELECT node_id, file_name, file_path, process_name FROM threat_file_static WHERE file_name = 'xxxx'"}
+{"question": "有人中了远程后门，在聊天群中发了一个附件，附件MD5为 xxxx，请找出有哪些终端接收了这个文件，哪些终端接收后还运行了这个文件？", "gold_sql": "SELECT node_id, file_name, file_path, process_name FROM threat_file_static WHERE file_md5 = 'xxxx'"}
+{"question": "请分析哪些服务器存在异常登录的情况，并给出可能原因。", "gold_sql": "SELECT node_id, COUNT(*) AS login_count FROM risk_account_details WHERE last_find_time >= DATE_SUB(NOW(), INTERVAL 7 DAY) GROUP BY node_id HAVING login_count > 10"}
+{"question": "服务器A经常出现暴力破解告警，请分析该事件。", "gold_sql": "SELECT node_id, user_name, source_ip, COUNT(*) AS attempt_count FROM risk_account_details WHERE node_id = 'A' AND last_find_time >= DATE_SUB(NOW(), INTERVAL 7 DAY) GROUP BY node_id, user_name, source_ip"}
+{"question": "有一个恶意的IP地址 42.65.123.58，哪些终端曾连接过该IP？", "gold_sql": "SELECT DISTINCT node_id, protocol, first_find_time, last_find_time FROM threat_ip_static WHERE ip = '42.65.123.58'"}
+{"question": "有一个恶意的域名 safe.dashabi.nl，哪些终端尝试解析过该域名？", "gold_sql": "SELECT DISTINCT node_id, process_name, first_find_time, last_find_time FROM threat_domain_static WHERE domain_address = 'safe.dashabi.nl'"}
+{"question": "请找出哪些终端上存在文件 xxxx。", "gold_sql": "SELECT DISTINCT node_id, file_path FROM threat_file_static WHERE file_name = 'xxxx'"}
+{"question": "有哪些员工经常上班摸鱼？", "gold_sql": "SELECT node_id, COUNT(*) AS activity_count FROM operation_log WHERE operation_type LIKE '%游戏%' OR operation_type LIKE '%娱乐%' GROUP BY node_id HAVING activity_count > 50"}
+{"question": "请统计局域网中，哪些IP经常作为爆破源发起对其他机器的口令试探，并对爆破源进行终端隔离。", "gold_sql": "SELECT source_ip, COUNT(*) AS attack_count FROM risk_account_details WHERE event_type = '暴力破解' GROUP BY source_ip HAVING attack_count > 100"}
+{"question": "给定一个MD5，请从一批终端中删除该文件；若存在对应进程，请结束该进程。", "gold_sql": "SELECT node_id, file_path, process_name FROM threat_file_static WHERE file_md5 = 'MD5_VALUE'"}
+{"question": "我有哪些终端的资源使用不正常（CPU/内存），请统计出高占用的业务与终端。", "gold_sql": "SELECT node_id, name, cpu_used, mem_used FROM node_process WHERE cpu_used > 80 OR mem_used > 1073741824"}
+{"question": "有哪些服务器未启用密码复杂度设置，请找出来并帮我启用。", "gold_sql": "SELECT node_id FROM password_policy WHERE complexity_enabled = 0 OR complexity_enabled IS NULL"}
